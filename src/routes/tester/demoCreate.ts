@@ -3,17 +3,12 @@ import { RequestHandler } from "express";
 
 export const demoCreate: RequestHandler = async (req, res) => {
   try {
+    const data = req.body as {
+      name: string;
+      email: string;
+    };
     await prisma.user.create({
-      data: {
-        name: "Alice",
-        email: "alice@prisma.io",
-        posts: {
-          create: { title: "Hello World" },
-        },
-        profile: {
-          create: { bio: "I like turtles" },
-        },
-      },
+      data,
     });
 
     const allUsers = await prisma.user.findMany({
